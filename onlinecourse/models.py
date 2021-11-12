@@ -103,12 +103,12 @@ class Enrollment(models.Model):
     # Other fields and methods you would like to design
 class Question(models.Model):
     # Foreign key to lesson
-    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    questions = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     # question text
     question_text = models.TextField()
     # question grade/mark
+    #questions = models.ForeignKey(Course, on_delete=models.CASCADE)
     grade = models.IntegerField()
-
     # <HINT> A sample model method to calculate if learner get the score of the question
     def is_get_score(self, selected_ids):
        all_answers = self.choice_set.filter(is_correct=True).count()
@@ -117,7 +117,8 @@ class Question(models.Model):
            return True
        else:
            return False
-
+    def __str__(self):
+        return self.question_text 
 
 #  <HINT> Create a Choice Model with:
     # Used to persist choice content for a question
@@ -137,5 +138,5 @@ class Choice(models.Model):
 # One choice could belong to multiple submissions
 class Submission(models.Model):
    enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
-   chocies = models.ManyToManyField(Choice)
+   choices = models.ManyToManyField(Choice)
 #    Other fields and methods you would like to design
